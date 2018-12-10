@@ -1,0 +1,12 @@
+export const LOGIN_START = '[auth] login start';
+export const LOGIN_SUCCESS = '[auth] login success';
+export const LOGIN_FAIL = '[auth] login fail';
+export const SIGNUP_START = '[auth] signup start';
+export const SIGNUP_SUCCESS = '[auth] signup success';
+export const SIGNUP_FAIL = '[auth] signup fail';
+export const LOGOUT_START = '[auth] logout start';
+export const LOGOUT_SUCCESS = '[auth] logout success';
+export const LOGOUT_FAIL = '[auth] logout fail';
+export const AUTH_CHECK_START = '[auth] auth check start';
+export const AUTH_CHECK_SUCCESS = '[auth] auth check success';
+export const AUTH_CHECK_FAIL = '[auth] auth check fail';
