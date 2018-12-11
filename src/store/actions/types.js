@@ -10,3 +10,6 @@ export const LOGOUT_FAIL = '[auth] logout fail';
 export const AUTH_CHECK_START = '[auth] auth check start';
 export const AUTH_CHECK_SUCCESS = '[auth] auth check success';
 export const AUTH_CHECK_FAIL = '[auth] auth check fail';
+export const GET_ALL_CHATS_START = '[chats] get all chats start';
+export const GET_ALL_CHATS_SUCCESS = '[chats] get all chats success';
+export const GET_ALL_CHATS_FAIL = '[chats] get all chats fail';
