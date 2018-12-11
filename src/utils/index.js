@@ -1,4 +1,4 @@
-export { handleAuthorAvatar } from './avatar.utils';
+export { stringToChar } from './stringToChar.utils';
 
 export { cutStringLength } from './cutStringLength.utils';
 
