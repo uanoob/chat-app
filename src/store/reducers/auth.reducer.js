@@ -39,7 +39,7 @@ export default function (state = initialState, action) {
     case SIGNUP_SUCCESS:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: action.payload.success,
         token: action.payload.token,
         message: action.payload.message,
         loading: false,
@@ -53,7 +53,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isAuthenticated: false,
-        token,
+        token: null,
         message: action.payload.message,
         loading: false,
         loaded: false,
@@ -63,7 +63,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isAuthenticated: false,
-        token,
+        token: null,
         message: action.payload.message,
         loading: false,
         loaded: true,
@@ -72,7 +72,7 @@ export default function (state = initialState, action) {
     case AUTH_CHECK_SUCCESS:
       return {
         ...state,
-        isAuthenticated: true,
+        isAuthenticated: action.payload.success,
         message: action.payload.message,
         loading: false,
         loaded: true,

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import BASE_URL from '../../config';
 
 import {
   LOGIN_START,
@@ -24,21 +24,29 @@ const logoutSuccess = data => ({
   payload: data,
 });
 
-const logoutFail = err => ({
-  type: LOGIN_FAIL,
-  payload: err,
+const logoutFail = error => ({
+  type: LOGOUT_FAIL,
+  payload: error,
 });
 
 export const logout = () => (dispatch) => {
   dispatch(logoutStart());
-  axios
-    .get('/logout')
-    .then((response) => {
-      dispatch(logoutSuccess(response.data));
-      localStorage.removeItem('token');
-    })
-    .catch((error) => {
-      dispatch(logoutFail(error.response.data));
+  const url = BASE_URL;
+  fetch(`${url}/logout`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.success) {
+        dispatch(logoutSuccess(data));
+        localStorage.removeItem('token');
+      } else {
+        dispatch(logoutFail(data));
+        localStorage.removeItem('token');
+      }
     });
 };
 
@@ -51,24 +59,32 @@ export const authCheckSuccess = user => ({
   payload: user,
 });
 
-const authCheckFail = err => ({
+const authCheckFail = error => ({
   type: AUTH_CHECK_FAIL,
-  payload: err,
+  payload: error,
 });
 
 export const authCheck = () => (dispatch, getState) => {
   dispatch(authCheckStart());
   const { token } = getState().auth;
-  const config = {
-    headers: { Authorization: `Bearer ${token}` },
-  };
-  axios
-    .get('/users/me', config)
-    .then((response) => {
-      dispatch(authCheckSuccess(response.data));
+  const url = BASE_URL;
+  fetch(`${url}/users/me`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.success) {
+        dispatch(authCheckSuccess(data));
+      } else {
+        dispatch(authCheckFail(data));
+      }
     })
     .catch((error) => {
-      dispatch(authCheckFail(error.response.data));
+      dispatch(authCheckFail(error));
     });
 };
 
@@ -81,25 +97,35 @@ const loginSuccess = data => ({
   payload: data,
 });
 
-const loginFail = data => ({
-  type: LOGOUT_FAIL,
-  payload: data,
+const loginFail = error => ({
+  type: LOGIN_FAIL,
+  payload: error,
 });
 
 export const login = (email, password) => (dispatch) => {
   dispatch(loginStart());
-  const loginData = {
-    username: email,
-    password,
-  };
-  axios
-    .post('/login', loginData)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(loginSuccess(response.data));
+  const url = BASE_URL;
+  fetch(`${url}/login`, {
+    method: 'POST',
+    body: JSON.stringify({
+      username: email,
+      password,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        dispatch(loginSuccess(data));
+      } else {
+        dispatch(loginFail(data));
+      }
     })
     .catch((error) => {
-      dispatch(loginFail(error.response.data));
+      dispatch(loginFail(error));
     });
 };
 
@@ -119,17 +145,27 @@ const signUpFail = err => ({
 
 export const signUp = (email, password) => (dispatch) => {
   dispatch(signUpStart());
-  const signUpData = {
-    username: email,
-    password,
-  };
-  axios
-    .post('/signup', signUpData)
-    .then((response) => {
-      localStorage.setItem('token', response.data.token);
-      dispatch(signUpSuccess(response.data));
+  const url = BASE_URL;
+  fetch(`${url}/signup`, {
+    method: 'POST',
+    body: JSON.stringify({
+      username: email,
+      password,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        dispatch(signUpSuccess(data));
+      } else {
+        dispatch(signUpFail(data));
+      }
     })
     .catch((error) => {
-      dispatch(signUpFail(error.response.data));
+      dispatch(signUpFail(error));
     });
 };
