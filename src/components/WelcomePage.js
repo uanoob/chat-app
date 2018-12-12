@@ -37,7 +37,9 @@ export class WelcomePageComponent extends Component {
     const { current } = this.state;
     return (
       <Fragment>
-        <NavBar />
+        <AppBar position="static">
+          <NavBar />
+        </AppBar>
         <div className={classes.container}>
           <AppBar position="static" color="default">
             <Tabs

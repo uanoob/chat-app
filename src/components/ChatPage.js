@@ -4,10 +4,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import ChatList from './ChatList';
+import Navbar from './Navbar';
 
 const drawerWidth = 240;
 
@@ -44,11 +44,7 @@ class PermanentDrawerLeft extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              Chat App
-            </Typography>
-          </Toolbar>
+          <Navbar />
         </AppBar>
         <Drawer
           className={classes.drawer}
