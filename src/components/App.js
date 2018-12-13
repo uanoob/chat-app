@@ -5,7 +5,7 @@ import {
   Route, Switch, Redirect, withRouter,
 } from 'react-router-dom';
 import WelcomePage from './WelcomePage';
-import ChatPage from './ChatPage';
+import MainPage from './MainPage';
 import { authCheck } from '../store/actions';
 
 class App extends React.Component {
@@ -25,7 +25,7 @@ class App extends React.Component {
     if (isAuthenticated) {
       routes = (
         <Switch>
-          <Route exact path="/chat" component={ChatPage} />
+          <Route path="/chat/:id?" component={MainPage} />
           <Redirect to="/chat" />
         </Switch>
       );

@@ -43,13 +43,13 @@ class Navbar extends Component {
   };
 
   render() {
-    const { classes, isAuthenticated } = this.props;
+    const { classes, isAuthenticated, title } = this.props;
     const { open } = this.state;
     return (
       <div className={classes.root}>
         <Toolbar>
           <Typography variant="h6" color="inherit" className={classes.grow}>
-            Chat App
+            {title}
           </Typography>
           {isAuthenticated ? (
             <div>
@@ -93,6 +93,7 @@ Navbar.propTypes = {
   }).isRequired,
   onLogout: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
