@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import { stringToChar, stringToColor } from '../utils';
+import { stringToChar, stringToColor } from '../../utils';
 
 const styles = theme => ({
   root: {
@@ -13,34 +14,42 @@ const styles = theme => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
+  link: {
+    textDecoration: 'none',
+  },
 });
 
 const ChatListItem = (props) => {
-  const { selectedIndex, handleListItemClick, chat } = props;
+  const {
+    classes, selectedIndex, handleListItemClick, chat,
+  } = props;
 
   return (
-    <ListItem
-      button
-      selected={selectedIndex === chat._id}
-      onClick={event => handleListItemClick(event, chat._id)}
-    >
-      <ListItemAvatar>
-        <Avatar
-          style={{
-            backgroundColor: stringToColor(chat.title || 'Anonymous'),
-          }}
-        >
-          {stringToChar(chat.title || 'Anonymous')}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText primary={chat.title} />
-    </ListItem>
+    <Link className={classes.link} to={`/chat/${chat._id}`}>
+      <ListItem
+        button
+        selected={selectedIndex === chat._id}
+        onClick={event => handleListItemClick(event, chat._id)}
+      >
+        <ListItemAvatar>
+          <Avatar
+            style={{
+              backgroundColor: stringToColor(chat.title || 'Anonymous'),
+            }}
+          >
+            {stringToChar(chat.title || 'Anonymous')}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={chat.title} />
+      </ListItem>
+    </Link>
   );
 };
 
 ChatListItem.propTypes = {
   classes: PropTypes.shape({
     root: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
   }).isRequired,
   selectedIndex: PropTypes.string.isRequired,
   handleListItemClick: PropTypes.func.isRequired,

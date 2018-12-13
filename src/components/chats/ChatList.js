@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ChatListItem from './ChatListItem';
-import { getAllChats } from '../store/actions';
+import { getAllChats } from '../../store/actions';
 
 const styles = theme => ({
   root: {
