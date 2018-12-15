@@ -18,7 +18,7 @@ const token = localStorage.getItem('token');
 const initialState = {
   isAuthenticated: false,
   token,
-  message: '',
+  notice: null,
   loading: false,
   loaded: false,
   user: null,
@@ -41,7 +41,10 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: action.payload.success,
         token: action.payload.token,
-        message: action.payload.message,
+        notice: {
+          type: 'success',
+          message: action.payload.message,
+        },
         loading: false,
         loaded: true,
         user: action.payload.user,
@@ -54,7 +57,10 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: false,
         token: null,
-        message: action.payload.message,
+        notice: {
+          type: 'error',
+          message: action.payload.message,
+        },
         loading: false,
         loaded: false,
         user: null,
@@ -64,7 +70,10 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: false,
         token: null,
-        message: action.payload.message,
+        notice: {
+          type: 'success',
+          message: action.payload.message,
+        },
         loading: false,
         loaded: true,
         user: null,
@@ -73,7 +82,10 @@ export default function (state = initialState, action) {
       return {
         ...state,
         isAuthenticated: action.payload.success,
-        message: action.payload.message,
+        notice: {
+          type: 'success',
+          message: action.payload.message,
+        },
         loading: false,
         loaded: true,
         user: action.payload.user,

@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import WelcomePage from './WelcomePage';
 import MainPage from './MainPage';
+import SnackbarPage from './snackbar/SnackbarPage';
 import { authCheck } from '../store/actions';
 
 class App extends React.Component {
@@ -15,7 +16,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, notice } = this.props;
     let routes = (
       <Switch>
         <Route exact path="/welcome" component={WelcomePage} />
@@ -30,16 +31,31 @@ class App extends React.Component {
         </Switch>
       );
     }
-    return <Fragment>{routes}</Fragment>;
+    return (
+      <Fragment>
+        {routes}
+        {notice && <SnackbarPage notice={notice} />}
+      </Fragment>
+    );
   }
 }
+
+App.defaultProps = {
+  notice: null,
+};
+
 App.propTypes = {
   onAuthCheck: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  notice: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired,
+  }),
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
+  notice: state.auth.notice,
 });
 
 const mapDispatchToProps = {
