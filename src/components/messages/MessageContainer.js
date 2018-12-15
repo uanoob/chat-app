@@ -3,27 +3,29 @@ import PropTypes from 'prop-types';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
 
-const MessageContainer = ({ chat, chatId, userId }) => (
+const MessageContainer = ({ messages, chatId, userId }) => (
   <div noValidate autoComplete="off">
-    <MessageList messages={chat.messages} userId={userId} />
+    <MessageList messages={messages} userId={userId} />
     <MessageInput chatId={chatId} />
   </div>
 );
 
 MessageContainer.propTypes = {
-  chat: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    creator: PropTypes.shape({
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string.isRequired,
+      createdAt: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      chatId: PropTypes.string.isRequired,
+      sender: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+      }).isRequired,
     }),
-    title: PropTypes.string.isRequired,
-    members: PropTypes.arrayOf(PropTypes.string.isRequired),
-  }).isRequired,
+  ).isRequired,
   chatId: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
 };

@@ -9,7 +9,12 @@ import Divider from '@material-ui/core/Divider';
 import ChatList from './chats/ChatList';
 import Navbar from './Navbar';
 import MessageContainer from './messages/MessageContainer';
-import { getChatById } from '../store/actions';
+import {
+  getChatById,
+  socketsConnect,
+  socketsMountChat,
+  socketsUnmountChat,
+} from '../store/actions';
 
 const drawerWidth = 300;
 
@@ -39,19 +44,31 @@ const styles = theme => ({
 export class MainPageComponent extends React.Component {
   state = {};
 
+  componentDidMount() {
+    const { onSocketsConnect } = this.props;
+    onSocketsConnect();
+  }
+
   componentWillReceiveProps(nextProps) {
     const nextId = nextProps.match.params.id;
-    const { match } = this.props;
+    const {
+      match,
+      onGetChatById,
+      onSocketsMountChat,
+      onSocketsUnmountChat,
+    } = this.props;
+    onSocketsMountChat(nextId);
     const prevId = match.params.id;
-    const { onGetChatById } = this.props;
     if (nextId !== prevId) {
+      onSocketsUnmountChat(prevId);
+      onSocketsMountChat(nextId);
       onGetChatById(nextId);
     }
   }
 
   render() {
     const {
-      classes, chat, match, userId,
+      classes, chat, messages, match, userId,
     } = this.props;
 
     return (
@@ -74,9 +91,9 @@ export class MainPageComponent extends React.Component {
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {chat && (
+          {messages && messages.length !== 0 && (
             <MessageContainer
-              chat={chat}
+              messages={messages}
               chatId={match.params.id}
               userId={userId}
             />
@@ -118,17 +135,39 @@ MainPageComponent.propTypes = {
     title: PropTypes.string.isRequired,
     members: PropTypes.arrayOf(PropTypes.string.isRequired),
   }),
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string.isRequired,
+      createdAt: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      chatId: PropTypes.string.isRequired,
+      sender: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+      }).isRequired,
+    }),
+  ).isRequired,
   onGetChatById: PropTypes.func.isRequired,
+  onSocketsConnect: PropTypes.func.isRequired,
+  onSocketsMountChat: PropTypes.func.isRequired,
+  onSocketsUnmountChat: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   chat: state.chat.chat,
+  messages: state.chat.messages,
   userId: state.auth.user._id,
 });
 
 const mapDispatchToProps = {
   onGetChatById: getChatById,
+  onSocketsConnect: socketsConnect,
+  onSocketsMountChat: socketsMountChat,
+  onSocketsUnmountChat: socketsUnmountChat,
 };
 
 const MainPage = connect(
