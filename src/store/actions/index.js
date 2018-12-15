@@ -6,4 +6,11 @@ export { getAllChats } from './chats.action';
 
 export { getChatById, getChatByIdSuccess } from './chat.action';
 
-export { sendMessage } from './message.action';
+// export { sendMessage } from './message.action';
+
+export {
+  socketsConnect,
+  socketsMountChat,
+  socketsUnmountChat,
+  socketSendMessage,
+} from './socket.action';
