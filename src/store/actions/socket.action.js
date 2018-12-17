@@ -4,7 +4,8 @@ import {
   SOCKETS_CONNECT_SUCCESS,
   SOCKETS_CONNECT_FAIL,
   SOCKETS_CONNECT_MISSING,
-  SOCKETS_RECEIVE_MESSAGE,
+  SOCKETS_RECEIVE_NEW_CHAT,
+  SOCKETS_RECEIVE_NEW_MESSAGE,
   SOCKETS_SEND_MESSAGE_START,
   SOCKETS_SEND_MESSAGE_SUCCESS,
   // SOCKETS_SEND_MESSAGE_FAIL,
@@ -36,8 +37,13 @@ const socketsConnectFail = error => ({
   payload: error,
 });
 
+const socketsReceiveNewChat = chat => ({
+  type: SOCKETS_RECEIVE_NEW_CHAT,
+  payload: chat,
+});
+
 const socketsReceiveMessage = message => ({
-  type: SOCKETS_RECEIVE_MESSAGE,
+  type: SOCKETS_RECEIVE_NEW_MESSAGE,
   payload: message,
 });
 
@@ -56,8 +62,10 @@ export const socketsConnect = () => (dispatch, getState) => {
   socket.on('connect_error', () => {
     dispatch(socketsConnectMissing('Socket: lost connection.'));
   });
+  socket.on('new-chat', (chat) => {
+    dispatch(socketsReceiveNewChat(chat));
+  });
   socket.on('new-message', (message) => {
-    console.log(message);
     dispatch(socketsReceiveMessage(message));
   });
 };
@@ -76,7 +84,7 @@ const socketsSendMessageSuccess = data => ({
 //   payload: error,
 // });
 
-export const socketSendMessage = (content, chatId) => (dispatch) => {
+export const socketsSendMessage = (content, chatId) => (dispatch) => {
   dispatch(socketsSendMessageStart());
   const sendData = {
     chatId,

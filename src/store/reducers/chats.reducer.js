@@ -2,6 +2,7 @@ import {
   GET_ALL_CHATS_START,
   GET_ALL_CHATS_SUCCESS,
   GET_ALL_CHATS_FAIL,
+  SOCKETS_RECEIVE_NEW_CHAT,
 } from '../actions/types';
 
 const initialState = {
@@ -32,6 +33,11 @@ export default function (state = initialState, action) {
         message: action.payload.message,
         loading: false,
         loaded: false,
+      };
+    case SOCKETS_RECEIVE_NEW_CHAT:
+      return {
+        ...state,
+        chats: state.chats.concat(action.payload.chat),
       };
     default:
       return state;

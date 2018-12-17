@@ -2,7 +2,10 @@ import {
   GET_CHAT_BY_ID_START,
   GET_CHAT_BY_ID_SUCCESS,
   GET_CHAT_BY_ID_FAIL,
-  SOCKETS_RECEIVE_MESSAGE,
+  CREATE_CHAT_START,
+  CREATE_CHAT_SUCCESS,
+  CREATE_CHAT_FAIL,
+  SOCKETS_RECEIVE_NEW_MESSAGE,
 } from '../actions/types';
 
 const initialState = {
@@ -16,6 +19,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_CHAT_BY_ID_START:
+    case CREATE_CHAT_START:
       return {
         ...state,
         loading: true,
@@ -28,7 +32,15 @@ export default function (state = initialState, action) {
         chat: action.payload.chat,
         messages: action.payload.chat.messages,
       };
+    case CREATE_CHAT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        // chat: action.payload.chat,
+      };
     case GET_CHAT_BY_ID_FAIL:
+    case CREATE_CHAT_FAIL:
       return {
         ...state,
         message: action.payload.message,
@@ -36,7 +48,7 @@ export default function (state = initialState, action) {
         loaded: false,
         chat: null,
       };
-    case SOCKETS_RECEIVE_MESSAGE:
+    case SOCKETS_RECEIVE_NEW_MESSAGE:
       return {
         ...state,
         messages: state.messages.concat(action.payload.message),
