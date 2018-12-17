@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import { checkValidityLength } from '../../utils/validator.utils';
-import { socketSendMessage } from '../../store/actions';
+import { socketsSendMessage } from '../../store/actions';
 
 const styles = theme => ({
   messageInputComponentWrapper: {
@@ -47,8 +47,8 @@ class MessageInputComponent extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { message } = this.state;
-    const { onSocketSendMessage, chatId } = this.props;
-    onSocketSendMessage(message, chatId);
+    const { onSocketsSendMessage, chatId } = this.props;
+    onSocketsSendMessage(message, chatId);
     this.clearInput();
   };
 
@@ -91,12 +91,12 @@ MessageInputComponent.propTypes = {
     root: PropTypes.string.isRequired,
     textField: PropTypes.string.isRequired,
   }).isRequired,
-  onSocketSendMessage: PropTypes.func.isRequired,
+  onSocketsSendMessage: PropTypes.func.isRequired,
   chatId: PropTypes.string.isRequired,
 };
 
 const mapDispatchToProps = {
-  onSocketSendMessage: socketSendMessage,
+  onSocketsSendMessage: socketsSendMessage,
 };
 
 const MessageInput = connect(
