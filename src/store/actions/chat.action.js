@@ -7,7 +7,7 @@ import {
   CREATE_CHAT_FAIL,
 } from './types';
 
-import BASE_URL from '../../config';
+import { API_URI } from '../../config';
 import redirect from './redirect.action';
 
 const getChatByIdStart = () => ({
@@ -26,7 +26,7 @@ const getChatByIdFail = error => ({
 
 export const getChatById = id => (dispatch, getState) => {
   dispatch(getChatByIdStart());
-  const url = BASE_URL;
+  const url = API_URI;
   const { token } = getState().auth;
   fetch(`${url}/chats/${id}`, {
     method: 'GET',
@@ -64,7 +64,7 @@ const createChatFail = error => ({
 
 export const createChat = content => (dispatch, getState) => {
   dispatch(createChatStart());
-  const url = BASE_URL;
+  const url = API_URI;
   const { token } = getState().auth;
   const sendData = {
     data: { title: content },

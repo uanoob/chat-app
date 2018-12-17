@@ -17,6 +17,8 @@ import {
   SOCKETS_UNMOUNT_CHAT_FAIL,
 } from './types';
 
+import { SOCKETS_URI } from '../../config';
+
 let socket = null;
 
 export const socketsConnectMissing = error => ({
@@ -50,7 +52,7 @@ const socketsReceiveMessage = message => ({
 export const socketsConnect = () => (dispatch, getState) => {
   dispatch(socketsConnectStart());
   const { token } = getState().auth;
-  socket = SocketIOClient('ws://localhost:8000', {
+  socket = SocketIOClient(SOCKETS_URI, {
     query: { token },
   });
   socket.on('connect', () => {

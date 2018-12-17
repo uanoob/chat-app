@@ -1,4 +1,4 @@
-import BASE_URL from '../../config';
+import { API_URI } from '../../config';
 
 import {
   LOGIN_START,
@@ -31,7 +31,7 @@ const logoutFail = error => ({
 
 export const logout = () => (dispatch) => {
   dispatch(logoutStart());
-  const url = BASE_URL;
+  const url = { API_URI };
   fetch(`${url}/logout`, {
     method: 'GET',
     headers: {
@@ -67,7 +67,7 @@ const authCheckFail = error => ({
 export const authCheck = () => (dispatch, getState) => {
   dispatch(authCheckStart());
   const { token } = getState().auth;
-  const url = BASE_URL;
+  const url = API_URI;
   fetch(`${url}/users/me`, {
     method: 'GET',
     headers: {
@@ -104,7 +104,7 @@ const loginFail = error => ({
 
 export const login = (email, password) => (dispatch) => {
   dispatch(loginStart());
-  const url = BASE_URL;
+  const url = API_URI;
   fetch(`${url}/login`, {
     method: 'POST',
     body: JSON.stringify({
@@ -145,7 +145,7 @@ const signUpFail = err => ({
 
 export const signUp = (email, password) => (dispatch) => {
   dispatch(signUpStart());
-  const url = BASE_URL;
+  const url = API_URI;
   fetch(`${url}/signup`, {
     method: 'POST',
     body: JSON.stringify({

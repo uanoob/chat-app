@@ -10,9 +10,9 @@ import App from './components/App';
 import history from './utils/history.utils';
 import * as serviceWorker from './serviceWorker';
 
-import BASE_URL from './config';
+import { API_URI } from './config';
 
-axios.defaults.baseURL = BASE_URL;
+axios.defaults.baseURL = API_URI;
 axios.defaults.withCredentials = true;
 
 const app = (
