@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import 'typeface-roboto';
 import './index.css';
 import axios from 'axios';
 import { Provider } from 'react-redux';
 import store from './store/store';
 import App from './components/App';
+import history from './utils/history.utils';
 import * as serviceWorker from './serviceWorker';
 
 import BASE_URL from './config';
@@ -16,7 +17,7 @@ axios.defaults.withCredentials = true;
 
 const app = (
   <Provider store={store}>
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename={process.env.PUBLIC_URL} history={history}>
       <App />
     </Router>
   </Provider>
