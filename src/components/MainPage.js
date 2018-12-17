@@ -2,12 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Divider from '@material-ui/core/Divider';
-import ChatList from './chats/ChatList';
 import Navbar from './Navbar';
+import Sidebar from './Sidebar';
 import MessageContainer from './messages/MessageContainer';
 import {
   getChatById,
@@ -25,13 +23,6 @@ const styles = theme => ({
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  drawerPaper: {
-    width: drawerWidth,
   },
   toolbar: theme.mixins.toolbar,
   content: {
@@ -57,10 +48,11 @@ export class MainPageComponent extends React.Component {
       onSocketsMountChat,
       onSocketsUnmountChat,
     } = this.props;
-    onSocketsMountChat(nextId);
     const prevId = match.params.id;
     if (nextId !== prevId) {
-      onSocketsUnmountChat(prevId);
+      if (prevId) {
+        onSocketsUnmountChat(prevId);
+      }
       onSocketsMountChat(nextId);
       onGetChatById(nextId);
     }
@@ -68,35 +60,24 @@ export class MainPageComponent extends React.Component {
 
   render() {
     const {
-      classes, chat, messages, match, userId,
+      classes, chat, messages, userId,
     } = this.props;
-
     return (
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Navbar title={(chat && chat.title) || 'Chat App'} />
         </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          anchor="left"
-        >
-          <div className={classes.toolbar} />
-          <Divider />
-          <ChatList />
-        </Drawer>
+        <Sidebar />
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {messages && messages.length !== 0 && (
-            <MessageContainer
-              messages={messages}
-              chatId={match.params.id}
-              userId={userId}
-            />
+          {chat
+            && chat._id && (
+              <MessageContainer
+                messages={messages}
+                chatId={chat._id}
+                userId={userId}
+              />
           )}
         </main>
       </div>
@@ -106,13 +87,13 @@ export class MainPageComponent extends React.Component {
 
 MainPageComponent.defaultProps = {
   chat: null,
+  messages: [],
 };
 
 MainPageComponent.propTypes = {
   classes: PropTypes.shape({
     root: PropTypes.string.isRequired,
     appBar: PropTypes.string.isRequired,
-    drawer: PropTypes.string.isRequired,
     toolbar: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
   }).isRequired,
@@ -149,7 +130,7 @@ MainPageComponent.propTypes = {
         firstName: PropTypes.string.isRequired,
       }).isRequired,
     }),
-  ).isRequired,
+  ),
   onGetChatById: PropTypes.func.isRequired,
   onSocketsConnect: PropTypes.func.isRequired,
   onSocketsMountChat: PropTypes.func.isRequired,
