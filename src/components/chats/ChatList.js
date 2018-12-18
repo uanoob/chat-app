@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ChatListItem from './ChatListItem';
-import { getAllChats } from '../../store/actions';
 
 const styles = theme => ({
   root: {
@@ -18,11 +16,6 @@ export class ChatListComponent extends React.Component {
   state = {
     selectedIndex: '',
   };
-
-  componentDidMount() {
-    const { onGetAllChats } = this.props;
-    onGetAllChats();
-  }
 
   handleListItemClick = (event, index) => {
     this.setState({ selectedIndex: index });
@@ -52,15 +45,10 @@ export class ChatListComponent extends React.Component {
   }
 }
 
-ChatListComponent.defaultProps = {
-  chats: [],
-};
-
 ChatListComponent.propTypes = {
   classes: PropTypes.shape({
     root: PropTypes.string.isRequired,
   }).isRequired,
-  onGetAllChats: PropTypes.func.isRequired,
   chats: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired,
@@ -75,20 +63,9 @@ ChatListComponent.propTypes = {
       title: PropTypes.string.isRequired,
       members: PropTypes.arrayOf(PropTypes.string.isRequired),
     }),
-  ),
+  ).isRequired,
 };
 
-const mapStateToProps = state => ({
-  chats: state.chats.chats,
-});
-
-const mapDispatchToProps = {
-  onGetAllChats: getAllChats,
-};
-
-const ChatList = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(withStyles(styles)(ChatListComponent));
+const ChatList = withStyles(styles)(ChatListComponent);
 
 export default ChatList;
