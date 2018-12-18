@@ -31,6 +31,10 @@ class MessageInputComponent extends React.Component {
     messageIsValid: false,
   };
 
+  componentWillReceiveProps() {
+    this.clearInput();
+  }
+
   handleChange = (event) => {
     event.preventDefault();
     const { name, value } = event.target;
@@ -41,6 +45,14 @@ class MessageInputComponent extends React.Component {
       [name]: value,
       [touched]: true,
       [isValid]: checkValidity(),
+    });
+  };
+
+  clearInput = () => {
+    this.setState({
+      message: '',
+      messageTouched: false,
+      messageIsValid: false,
     });
   };
 
