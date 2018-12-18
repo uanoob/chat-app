@@ -5,6 +5,7 @@ import {
   CREATE_CHAT_START,
   CREATE_CHAT_SUCCESS,
   CREATE_CHAT_FAIL,
+  CLEAR_CHAT,
   SOCKETS_RECEIVE_NEW_MESSAGE,
 } from '../actions/types';
 
@@ -47,6 +48,15 @@ export default function (state = initialState, action) {
         loading: false,
         loaded: false,
         chat: null,
+      };
+    case CLEAR_CHAT:
+      return {
+        ...state,
+        chat: null,
+        messages: [],
+        message: '',
+        loading: false,
+        loaded: false,
       };
     case SOCKETS_RECEIVE_NEW_MESSAGE:
       return {

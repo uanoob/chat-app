@@ -4,7 +4,7 @@ export {
 
 export { getAllChats } from './chats.action';
 
-export { getChatById, createChat } from './chat.action';
+export { getChatById, createChat, clearChat } from './chat.action';
 
 // export { sendMessage } from './message.action';
 

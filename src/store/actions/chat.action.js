@@ -5,6 +5,7 @@ import {
   CREATE_CHAT_START,
   CREATE_CHAT_SUCCESS,
   CREATE_CHAT_FAIL,
+  CLEAR_CHAT,
 } from './types';
 
 import { API_URI } from '../../config';
@@ -89,4 +90,10 @@ export const createChat = content => (dispatch, getState) => {
     .catch((error) => {
       dispatch(createChatFail(error));
     });
+};
+
+export const clearChat = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_CHAT,
+  });
 };

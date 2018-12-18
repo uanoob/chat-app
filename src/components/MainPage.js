@@ -8,6 +8,7 @@ import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import MessageContainer from './messages/MessageContainer';
 import {
+  clearChat,
   getChatById,
   socketsConnect,
   socketsMountChat,
@@ -56,6 +57,11 @@ export class MainPageComponent extends React.Component {
       onSocketsMountChat(nextId);
       onGetChatById(nextId);
     }
+  }
+
+  componentWillUnmount() {
+    const { onClearChat } = this.props;
+    onClearChat();
   }
 
   render() {
@@ -131,6 +137,7 @@ MainPageComponent.propTypes = {
       }).isRequired,
     }),
   ),
+  onClearChat: PropTypes.func.isRequired,
   onGetChatById: PropTypes.func.isRequired,
   onSocketsConnect: PropTypes.func.isRequired,
   onSocketsMountChat: PropTypes.func.isRequired,
@@ -145,6 +152,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  onClearChat: clearChat,
   onGetChatById: getChatById,
   onSocketsConnect: socketsConnect,
   onSocketsMountChat: socketsMountChat,
