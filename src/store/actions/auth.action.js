@@ -31,7 +31,7 @@ const logoutFail = error => ({
 
 export const logout = () => (dispatch) => {
   dispatch(logoutStart());
-  const url = { API_URI };
+  const url = API_URI;
   fetch(`${url}/logout`, {
     method: 'GET',
     headers: {
