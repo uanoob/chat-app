@@ -43,7 +43,9 @@ class Navbar extends Component {
   };
 
   render() {
-    const { classes, isAuthenticated, title } = this.props;
+    const {
+      classes, isAuthenticated, title, username,
+    } = this.props;
     const { open } = this.state;
     return (
       <div className={classes.root}>
@@ -74,7 +76,7 @@ class Navbar extends Component {
                 open={open}
                 onClose={this.handleClose}
               >
-                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                <MenuItem onClick={this.handleClose}>{username}</MenuItem>
                 <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
@@ -94,6 +96,7 @@ Navbar.propTypes = {
   onLogout: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

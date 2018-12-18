@@ -66,13 +66,16 @@ export class MainPageComponent extends React.Component {
 
   render() {
     const {
-      classes, chat, messages, userId,
+      classes, chat, messages, userId, username,
     } = this.props;
     return (
       <div className={classes.root}>
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
-          <Navbar title={(chat && chat.title) || 'Chat App'} />
+          <Navbar
+            title={(chat && chat.title) || 'Chat App'}
+            username={username || 'anonymous'}
+          />
         </AppBar>
         <Sidebar />
         <main className={classes.content}>
@@ -143,12 +146,14 @@ MainPageComponent.propTypes = {
   onSocketsMountChat: PropTypes.func.isRequired,
   onSocketsUnmountChat: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   chat: state.chat.chat,
   messages: state.chat.messages,
   userId: state.auth.user._id,
+  username: state.auth.user.username,
 });
 
 const mapDispatchToProps = {

@@ -38,7 +38,7 @@ export class WelcomePageComponent extends Component {
     return (
       <Fragment>
         <AppBar position="static">
-          <NavBar title="Chat App" />
+          <NavBar title="Chat App" username="anonymous" />
         </AppBar>
         <div className={classes.container}>
           <AppBar position="static" color="default">
